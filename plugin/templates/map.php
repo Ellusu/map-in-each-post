@@ -7,12 +7,12 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
+            maxZoom: 50,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
         }),
-        latlng = L.latLng(42.7627812, 9.1070471);
+        latlng = L.latLng(<?php echo $atts['lat']; ?>, <?php echo $atts['lon']; ?>);
 
-        var map = L.map('map', {center: latlng, zoom: 6, layers: [tiles]});
+        var map = L.map('map', {center: latlng, zoom: <?php echo $atts['zoom']; ?>, layers: [tiles]});
         var markers = L.markerClusterGroup();
 
         <?php foreach ($locations as $location) {
