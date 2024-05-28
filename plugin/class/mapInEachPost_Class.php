@@ -40,12 +40,8 @@
             if (is_singular()) {
                 $post_type = get_post_type();
                 $selected_post_types = get_option('post_types', []);
-                error_log('Post type: ' . $post_type);
-                error_log('Selected post types: ' . print_r($selected_post_types, true));
                 return in_array($post_type, $selected_post_types);
-            } else {
-                error_log('Not a singular post.');
-            }
+            } 
             return false;
         }
     }

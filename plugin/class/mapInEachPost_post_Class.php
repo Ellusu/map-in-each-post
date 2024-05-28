@@ -86,7 +86,7 @@ class mapInEachPost_post_Class {
                     $points = json_decode($points, true);
 
                     if (json_last_error() !== JSON_ERROR_NONE) {
-                        return '<p>Errore nella decodifica dei dati degli points.</p>';
+                        return [];
                     }
 
                     return $points;

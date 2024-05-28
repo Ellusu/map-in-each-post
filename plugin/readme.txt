@@ -8,7 +8,7 @@ Tested up to: 6.5.3
 Stable tag: 1
 License: GPLv2 or later
 
-A simple plugin to insert a customizable map in each post using shortcodes. Each post can have a unique map with different points, which can be added through a form. You can also select the post types where the map functionality should be enabled.
+A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.
 
 == Description ==
 

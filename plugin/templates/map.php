@@ -10,9 +10,9 @@
             maxZoom: 50,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
         }),
-        latlng = L.latLng(<?php echo $atts['lat']; ?>, <?php echo $atts['lon']; ?>);
+        latlng = L.latLng(<?php echo esc_html($atts['lat']); ?>, <?php echo esc_html($atts['lon']); ?>);
 
-        var map = L.map('map', {center: latlng, zoom: <?php echo $atts['zoom']; ?>, layers: [tiles]});
+        var map = L.map('map', {center: latlng, zoom: <?php echo esc_html($atts['zoom']); ?>, layers: [tiles]});
         var markers = L.markerClusterGroup();
 
         <?php foreach ($locations as $location) {
@@ -22,8 +22,8 @@
             $lon = esc_js($location['lon']);
             $link = esc_js($location['link']);
         ?>
-            var title = '<strong><?php echo $title; ?></strong><p><?php echo $desc; ?></p><p><a href="<?php echo $link; ?>" target="_blank">View</a></p>';
-            var marker = L.marker(new L.LatLng(<?php echo $lat; ?>, <?php echo $lon; ?>), { title: title });
+            var title = '<strong><?php echo esc_html($title); ?></strong><p><?php echo esc_html($desc); ?></p><p><a href="<?php echo esc_url($link); ?>" target="_blank">View</a></p>';
+            var marker = L.marker(new L.LatLng(<?php echo esc_html($lat); ?>, <?php echo esc_html($lon); ?>), { title: title });
             marker.bindPopup(title);
             markers.addLayer(marker);
         <?php } ?>

@@ -1,6 +1,6 @@
 <?php
     if ( ! defined( 'ABSPATH' ) ) {
-        exit; // Exit if accessed directly
+        exit;
     }
     wp_nonce_field('save_mapineachpost_points', 'points_nonce');
     $points = !empty($points) ? $points : array();
@@ -17,33 +17,33 @@
         <table class="point-table">
             <thead>
                 <tr>
-                    <th colspan="2">Point <?php echo $index + 1; ?></th>
+                    <th colspan="2">Point <?php echo esc_html( $index ) + 1; ?></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><label for="points[<?php echo $index; ?>][title]">Titolo:</label></td>
-                    <td><input type="text" name="points[<?php echo $index; ?>][title]" value="<?php echo esc_attr($point['title']); ?>" /></td>
+                    <td><label for="points[<?php echo esc_html( $index ); ?>][title]"><?php echo esc_html__('Title', 'map-in-each-post'); ?>:</label></td>
+                    <td><input type="text" name="points[<?php echo esc_html( $index ); ?>][title]" value="<?php echo esc_attr($point['title']); ?>" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[<?php echo $index; ?>][desc]">Descrizione:</label></td>
-                    <td><input type="text" name="points[<?php echo $index; ?>][desc]" value="<?php echo esc_attr($point['desc']); ?>" /></td>
+                    <td><label for="points[<?php echo esc_html( $index ); ?>][desc]"><?php echo esc_html__('Description', 'map-in-each-post'); ?>:</label></td>
+                    <td><input type="text" name="points[<?php echo esc_html( $index ); ?>][desc]" value="<?php echo esc_attr($point['desc']); ?>" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[<?php echo $index; ?>][lat]">Latitudine:</label></td>
-                    <td><input type="text" name="points[<?php echo $index; ?>][lat]" value="<?php echo esc_attr($point['lat']); ?>" /></td>
+                    <td><label for="points[<?php echo esc_html( $index ); ?>][lat]"><?php echo esc_html__('Latitude', 'map-in-each-post'); ?>:</label></td>
+                    <td><input type="text" name="points[<?php echo esc_html( $index ); ?>][lat]" value="<?php echo esc_attr($point['lat']); ?>" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[<?php echo $index; ?>][lon]">Longitudine:</label></td>
-                    <td><input type="text" name="points[<?php echo $index; ?>][lon]" value="<?php echo esc_attr($point['lon']); ?>" /></td>
+                    <td><label for="points[<?php echo esc_html( $index ); ?>][lon]"><?php echo esc_html__('Longitude', 'map-in-each-post'); ?>:</label></td>
+                    <td><input type="text" name="points[<?php echo esc_html( $index ); ?>][lon]" value="<?php echo esc_attr($point['lon']); ?>" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[<?php echo $index; ?>][link]">Link:</label></td>
-                    <td><input type="text" name="points[<?php echo $index; ?>][link]" value="<?php echo esc_attr($point['link']); ?>" /></td>
+                    <td><label for="points[<?php echo esc_html( $index ); ?>][link]"><?php echo esc_html__('Link', 'map-in-each-post'); ?>:</label></td>
+                    <td><input type="text" name="points[<?php echo esc_html( $index ); ?>][link]" value="<?php echo esc_attr($point['link']); ?>" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="button" class="remove-point">Rimuovi point</button>
+                        <button type="button" class="remove-point"><?php echo esc_html__('Remove point', 'map-in-each-post'); ?></button>
                     </td>
                 </tr>
             </tbody>
@@ -51,7 +51,7 @@
         <hr>
     <?php endforeach; ?>
 </div>
-<button type="button" id="add-point" style="<?php echo $enable_points ? '' : 'display:none;'; ?>">Aggiungi point</button>
+<button type="button" id="add-point" style="<?php echo $enable_points ? '' : 'display:none;'; ?>"><?php echo esc_html__('Add point', 'map-in-each-post'); ?></button>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var enablePointsCheckbox = document.getElementById('enable_mapineachpost_points');
@@ -76,28 +76,28 @@ document.addEventListener('DOMContentLoaded', function () {
             </thead>
             <tbody>
                 <tr>
-                    <td><label for="points[` + index + `][title]">Titolo:</label></td>
+                    <td><label for="points[` + index + `][title]"><?php echo esc_html__('Title', 'map-in-each-post'); ?>:</label></td>
                     <td><input type="text" name="points[` + index + `][title]" value="" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[` + index + `][desc]">Descrizione:</label></td>
+                    <td><label for="points[` + index + `][desc]"><?php echo esc_html__('Description', 'map-in-each-post'); ?>:</label></td>
                     <td><input type="text" name="points[` + index + `][desc]" value="" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[` + index + `][lat]">Latitudine:</label></td>
+                    <td><label for="points[` + index + `][lat]"><?php echo esc_html__('Latitude', 'map-in-each-post'); ?>:</label></td>
                     <td><input type="text" name="points[` + index + `][lat]" value="" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[` + index + `][lon]">Longitudine:</label></td>
+                    <td><label for="points[` + index + `][lon]"><?php echo esc_html__('Longitude', 'map-in-each-post'); ?>:</label></td>
                     <td><input type="text" name="points[` + index + `][lon]" value="" /></td>
                 </tr>
                 <tr>
-                    <td><label for="points[` + index + `][link]">Link:</label></td>
+                    <td><label for="points[` + index + `][link]"><?php echo esc_html__('Link', 'map-in-each-post'); ?>:</label></td>
                     <td><input type="text" name="points[` + index + `][link]" value="" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="button" class="remove-point">Rimuovi point</button>
+                        <button type="button" class="remove-point"><?php echo esc_html__('Remove point', 'map-in-each-post'); ?></button>
                     </td>
                 </tr>
             </tbody>
