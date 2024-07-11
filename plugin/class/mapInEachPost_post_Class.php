@@ -1,18 +1,41 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 class mapInEachPost_post_Class {
     public function __construct() {
         add_action('add_meta_boxes', [$this, 'add_mapineachpost_points_metabox']);
         add_action('save_post', [$this, 'save_mapineachpost_points']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
     }
+    
+    public function enqueue_admin_scripts() {
+        $plugin_url = plugin_dir_url(dirname(__FILE__));
+        $component_url = $plugin_url . 'component/';
+        
+        wp_enqueue_script('map-in-each-post-admin', $component_url . 'js/map-in-each-post-admin.js', ['jquery'], null, true);
+        wp_enqueue_style('map-in-each-post-admin-style', $component_url . 'css/map-in-each-post-admin.css');
+    
+        // Passare le stringhe localizzate al JavaScript
+        wp_localize_script('map-in-each-post-admin', 'mapInEachPostLabels', [
+            'point' => esc_html__('Point', 'map-in-each-post'),
+            'title' => esc_html__('Title', 'map-in-each-post'),
+            'description' => esc_html__('Description', 'map-in-each-post'),
+            'latitude' => esc_html__('Latitude', 'map-in-each-post'),
+            'longitude' => esc_html__('Longitude', 'map-in-each-post'),
+            'link' => esc_html__('Link', 'map-in-each-post'),
+            'removePoint' => esc_html__('Remove point', 'map-in-each-post'),
+        ]);
+    }
+    
+    
 
     public function add_mapineachpost_points_metabox() {
-        $selected_post_types = get_option('post_types', []);
+        $selected_post_types = get_option('mapInEachPost_post_types', []);
 
         foreach ($selected_post_types as $post_type) {
             add_meta_box(
                 'points_metabox',
-                'Points',
+                __('Points', 'map-in-each-post'),
                 [$this, 'render_mapineachpost_points_metabox'],
                 $post_type,
                 'normal',
@@ -30,7 +53,7 @@ class mapInEachPost_post_Class {
     }
 
     public function save_mapineachpost_points($post_id) {
-        if (!isset($_POST['points_nonce']) || !wp_verify_nonce($_POST['points_nonce'], 'save_mapineachpost_points')) {
+        if (!isset($_POST['mapInEachPost_nonce_field']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mapInEachPost_nonce_field'])), 'save_mapineachpost_points')) {
             return;
         }
 
@@ -42,7 +65,7 @@ class mapInEachPost_post_Class {
             return;
         }
 
-        if (isset($_POST['enable_mapineachpost_points'])) {
+        if (isset($_POST['_enable_mapineachpost_points'])) {
             update_post_meta($post_id, '_enable_mapineachpost_points', '1');
         } else {
             delete_post_meta($post_id, '_enable_mapineachpost_points');
@@ -77,7 +100,7 @@ class mapInEachPost_post_Class {
     public function getlistPoint() {
         if (is_singular()) {
             $post_type = get_post_type();
-            $selected_post_types = get_option('post_types', []);
+            $selected_post_types = get_option('mapInEachPost_post_types', []);
 
             if ($selected_post_types && in_array($post_type, $selected_post_types)) {
                 $enable_mapineachpost_points = get_post_meta(get_the_ID(), '_enable_mapineachpost_points', true);

@@ -30,7 +30,6 @@ To use this plugin, simply add the following shortcode to your post:
 
 Then, use the form that appears in the post editor to input the latitude and longitude coordinates for the points you want to add to the map.
 
-
 This will generate a map with points in New York City and Los Angeles.
 
 == Installation ==
@@ -56,6 +55,11 @@ Go to the plugin settings page and select the post types where you want the map 
 
 = What map service does this plugin use? =
 
-The plugin uses [Leaflet/OpenStreetMap] (choose the one you are using) to display the maps.
+The plugin uses Leaflet, an open-source JavaScript library for mobile-friendly interactive maps, to display the maps.
 
+== Third Party Services ==
 
+This plugin relies on the Leaflet service to display maps. Leaflet is an open-source JavaScript library for mobile-friendly interactive maps. By using this plugin, you agree to the terms of use and privacy policies of Leaflet.
+
+- Service: [Leaflet](https://leafletjs.com/)
+- License: [BSD-2-Clause license](https://github.com/Leaflet/Leaflet?tab=BSD-2-Clause-1-ov-file#readme)

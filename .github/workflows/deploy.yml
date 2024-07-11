@@ -1,0 +1,55 @@
+name: Deploy Plugin
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup SVN
+      run: sudo apt-get update && sudo apt-get install subversion
+
+    - name: Get Plugin Version
+      id: get_version
+      run: |
+        # Estrai la versione dal file principale del plugin
+        VERSION=$(grep -i 'Version:' plugin/map-in-each-post.php | awk '{print $2}')
+        echo "PLUGIN_VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Get Git Commit Message
+      id: get_commit_message
+      run: |
+        # Recupera il messaggio di commit più recente da Git
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
+
+    - name: Checkout SVN repository
+      run: |
+        # Checkout del repository SVN
+        svn checkout --depth immediates https://plugins.svn.wordpress.org/map-in-each-post --username ${{ secrets.SVN_USERNAME }} --password ${{ secrets.SVN_PASSWORD }}
+        cd map-in-each-post
+        svn update trunk --set-depth infinity
+        svn update tags --set-depth infinity
+        svn update assets --set-depth infinity
+
+    - name: Sync with SVN trunk and assets
+      run: |
+        # Copia i file del plugin dal repository GitHub alla cartella trunk di SVN
+        rsync -av --delete --exclude='.git*' plugin/ map-in-each-post/trunk/
+        rsync -av --delete --exclude='.git*' assets/ map-in-each-post/assets/
+        cd map-in-each-post
+        # Aggiungi nuovi file e rimuovi quelli eliminati
+        svn add --force .
+        # Identifica i file eliminati e rimuovili da SVN
+        for file in $(svn status | grep '^!' | awk '{print $2}'); do svn delete "$file"; done
+        # Crea una nuova tag in SVN
+        svn cp trunk tags/${{ env.PLUGIN_VERSION }}
+        # Esegui il commit delle modifiche con il messaggio di commit di Git
+        svn commit -m "${{ env.COMMIT_MESSAGE }}" --username ${{ secrets.SVN_USERNAME }} --password ${{ secrets.SVN_PASSWORD }}
