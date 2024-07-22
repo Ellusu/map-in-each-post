@@ -5,7 +5,7 @@ Donate link: https://www.paypal.me/matteoedev/2.55
 License URI: http://www.gnu.org/licenses/gpl.html
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.
@@ -27,6 +27,10 @@ Map in Each Post allows you to easily add a map to your WordPress posts using sh
 To use this plugin, simply add the following shortcode to your post:
 
 `[mapInEachPost]`
+
+Or by choosing the center point and zoom:
+
+`[mapInEachPost zoom="3" lat="45.4399961" lon="10.9719328"]`
 
 Then, use the form that appears in the post editor to input the latitude and longitude coordinates for the points you want to add to the map.
 
