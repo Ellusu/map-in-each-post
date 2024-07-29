@@ -18,8 +18,6 @@ class mapInEachPost_map_Class {
             wp_enqueue_style('markercluster-css', $component_url . 'css/MarkerCluster.css', array(), '1.0.0');
             wp_enqueue_style('markercluster-default-css', $component_url . 'css/MarkerCluster.Default.css', array(), '1.0.0');
             wp_enqueue_script('markercluster-js', $component_url . 'js/leaflet.markercluster-src.js', array('leaflet-js'), '1.0.0', true);
-    
-            wp_enqueue_script('map-initialization', $component_url . 'js/map-initialization.js', array('leaflet-js', 'markercluster-js'), '1.0.0', true);
         } 
     }
     
@@ -34,10 +32,10 @@ class mapInEachPost_map_Class {
             'locations' => $locations
         );
     
-    
-        add_action('wp_enqueue_scripts', function() use ($localized_data) {
-            wp_add_inline_script('map-initialization', 'var mapInEachPost = ' . wp_json_encode($localized_data) . ';', 'before');
-        });
+        wp_register_script('map-initialization', plugins_url('../component/js/map-initialization.js', __FILE__), [], '1.0.0', true);
+        wp_enqueue_script('map-initialization');
+        
+        wp_add_inline_script('map-initialization', 'var mapInEachPost = ' . wp_json_encode($localized_data) . ';', 'before');
     
         ob_start();
         include plugin_dir_path(__FILE__) . '../templates/map.php';
