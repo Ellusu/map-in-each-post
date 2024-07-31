@@ -14,12 +14,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var markers = L.markerClusterGroup();
 
     if (Array.isArray(mapInEachPost.locations)) {
-        mapInEachPost.locations.forEach(function(location) {
-            var title = '<strong>' + location.title + '</strong><p>' + location.desc + '</p><p><a href="' + location.link + '" target="_blank">View</a></p>';
-            var marker = L.marker(new L.LatLng(location.lat, location.lon), { title: title });
-            marker.bindPopup(title);
-            markers.addLayer(marker);
-        });
+        if (mapInEachPost.locations) {
+            mapInEachPost.locations.forEach(function(location) {
+                if (location.title && location.lat && location.lon) {
+                    var title = '<strong>' + location.title + '</strong>';
+                    if (location.desc) title += '<p>' + location.desc + '</p>';
+                    if (location.link) title += '<p><a href="' + location.link + '" target="_blank">' + mapInEachPost.view + '</a></p>';
+                    var marker = L.marker(new L.LatLng(location.lat, location.lon), { title: title });
+                    marker.bindPopup(title);
+                    markers.addLayer(marker);
+                }
+            });
+        }        
     } else {
         console.error('mapInEachPost.locations is not an array');
     }
