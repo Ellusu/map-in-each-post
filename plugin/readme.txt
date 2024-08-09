@@ -68,4 +68,4 @@ This plugin relies on the Leaflet service to display maps. Leaflet is an open-so
 - Service: [Leaflet](https://leafletjs.com/)
 - License: [BSD-2-Clause license](https://github.com/Leaflet/Leaflet?tab=BSD-2-Clause-1-ov-file#readme)
 
-You can find the source code and contribute to the project on GitHub: [Map in Each Post on GitHub](https://github.com/Ellusu/map-in-each-post)
+You can find the source code and contribute to the project on GitHub:[Map in Each Post on GitHub](https://github.com/Ellusu/map-in-each-post)
