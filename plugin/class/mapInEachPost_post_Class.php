@@ -7,15 +7,14 @@ class mapInEachPost_post_Class {
         add_action('save_post', [$this, 'save_mapineachpost_points']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
     }
-    
+
     public function enqueue_admin_scripts() {
         $plugin_url = plugin_dir_url(dirname(__FILE__));
         $component_url = $plugin_url . 'component/';
-        
+
         wp_enqueue_script('map-in-each-post-admin', $component_url . 'js/map-in-each-post-admin.js', ['jquery'], null, true);
         wp_enqueue_style('map-in-each-post-admin-style', $component_url . 'css/map-in-each-post-admin.css');
-    
-        // Passare le stringhe localizzate al JavaScript
+
         wp_localize_script('map-in-each-post-admin', 'mapInEachPostLabels', [
             'point' => esc_html__('Point', 'map-in-each-post'),
             'title' => esc_html__('Title', 'map-in-each-post'),
@@ -26,8 +25,6 @@ class mapInEachPost_post_Class {
             'removePoint' => esc_html__('Remove point', 'map-in-each-post'),
         ]);
     }
-    
-    
 
     public function add_mapineachpost_points_metabox() {
         $selected_post_types = get_option('mapInEachPost_post_types', []);
@@ -72,14 +69,14 @@ class mapInEachPost_post_Class {
         }
 
         if (isset($_POST['points'])) {
-            $points = $_POST['points'];
+            $points = wp_unslash($_POST['points']); // wp_unslash aggiunto
             $sanitized_mapineachpost_points = array();
 
             foreach ($points as $index => $point) {
                 if (!empty($point['title']) || !empty($point['desc']) || !empty($point['lat']) || !empty($point['lon']) || !empty($point['link'])) {
                     $sanitized_mapineachpost_points[$index] = array(
                         'title' => sanitize_text_field($point['title']),
-                        'desc' => sanitize_text_field($point['desc']),
+                        'desc' => sanitize_textarea_field($point['desc']), // cambiato sanitize_text_field a sanitize_textarea_field
                         'lat' => sanitize_text_field($point['lat']),
                         'lon' => sanitize_text_field($point['lon']),
                         'link' => esc_url_raw($point['link']),
