@@ -25,7 +25,7 @@ class mapInEachPost_post_Class {
             'removePoint' => esc_html__('Remove point', 'map-in-each-post'),
         ]);
     }
-
+    
     public function add_mapineachpost_points_metabox() {
         $selected_post_types = get_option('mapInEachPost_post_types', []);
 
@@ -103,7 +103,7 @@ class mapInEachPost_post_Class {
                 $enable_mapineachpost_points = get_post_meta(get_the_ID(), '_enable_mapineachpost_points', true);
                 if ($enable_mapineachpost_points) {
                     $points = get_post_meta(get_the_ID(), '_mapineachpost_points', true);
-                    $points = json_decode($points, true);
+                    $points = wp_json_decode($points, true); // cambiato json_decode a wp_json_decode
 
                     if (json_last_error() !== JSON_ERROR_NONE) {
                         return [];

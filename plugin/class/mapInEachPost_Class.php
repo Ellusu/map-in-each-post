@@ -3,6 +3,7 @@
 
     require_once (dirname(__FILE__).'/mapInEachPost_map_Class.php');
     require_once (dirname(__FILE__).'/mapInEachPost_post_Class.php');
+    require_once (dirname(__FILE__).'/mapInEachPost_notice_Class.php');
     require_once (dirname(__FILE__).'/mapInEachPost_configurator_Class.php');
     
     class mapInEachPost_Class {
@@ -14,6 +15,8 @@
             $this->map = new mapInEachPost_map_Class();
             $this->point = new mapInEachPost_post_Class();
             $menu = new mapInEachPost_configurator_Class();
+            $notice = new mapInEachPost_notice_Class();
+
             add_action('template_redirect', [$this, 'check_and_add_shortcode']);
         }
     
