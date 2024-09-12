@@ -25,14 +25,14 @@ class mapInEachPost_map_Class {
     public function render($locations, $atts = []) {
         $atts = $this->attsChecker($atts);
 
-        $localized_data = array(
+        $localized_data = apply_filters('map_in_each_post_localized_data', array(
             'lat' => $atts['lat'],
             'lon' => $atts['lon'],
             'zoom' => $atts['zoom'],
             'locations' => $locations,
             'view' => __('view', 'map-in-each-post')
-        );
-    
+        ));
+        
         wp_register_script('map-initialization', plugins_url('../component/js/map-initialization.js', __FILE__), [], '1.0.0', true);
         wp_enqueue_script('map-initialization');
         

@@ -45,9 +45,18 @@ class mapInEachPost_post_Class {
         $points = get_post_meta($post->ID, '_mapineachpost_points', true);
         $points = !empty($points) ? json_decode($points, true) : array();
         $enable_mapineachpost_points = get_post_meta($post->ID, '_enable_mapineachpost_points', true);
-
-        include plugin_dir_path(__FILE__) . '../templates/post-point-metabox.php';
+    
+        do_action('before_render_mapineachpost_points_form', $post, $points);
+    
+        if (has_action('render_custom_mapineachpost_points_form')) {
+            do_action('render_custom_mapineachpost_points_form', $post, $points);
+        } else {
+            include plugin_dir_path(__FILE__) . '../templates/post-point-metabox.php';
+        }
+    
+        do_action('after_render_mapineachpost_points_form', $post, $points);
     }
+    
 
     public function save_mapineachpost_points($post_id) {
         if (!isset($_POST['mapInEachPost_nonce_field']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mapInEachPost_nonce_field'])), 'save_mapineachpost_points')) {
