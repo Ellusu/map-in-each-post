@@ -11,7 +11,7 @@ class mapInEachPost_map_Class {
         $plugin_url = plugin_dir_url(dirname(__FILE__));
         $component_url = $plugin_url . 'component/';
     
-        if (!is_admin()) {
+        if (!is_admin() && $this->has_plugin_shortcode() ) {
             wp_enqueue_style('leaflet-css', $component_url . 'css/leaflet.css', array(), '1.0.3');
             wp_enqueue_script('leaflet-js', $component_url . 'js/leaflet.js', array(), '1.0.3', true);
     
@@ -21,6 +21,13 @@ class mapInEachPost_map_Class {
         } 
     }
     
+    public function has_plugin_shortcode() {
+        global $post;
+        if (isset($post->post_content)) {
+            return has_shortcode($post->post_content, 'mapInEachPost'); 
+        }
+        return false;
+    }
 
     public function render($locations, $atts = []) {
         $atts = $this->attsChecker($atts);

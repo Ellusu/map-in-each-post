@@ -5,7 +5,7 @@ Donate link: https://www.paypal.me/matteoedev/2.55
 License URI: http://www.gnu.org/licenses/gpl.html
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2 or later
 
 A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.

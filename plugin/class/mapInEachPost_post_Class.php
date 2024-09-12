@@ -43,6 +43,7 @@ class mapInEachPost_post_Class {
 
     public function render_mapineachpost_points_metabox($post) {
         $points = get_post_meta($post->ID, '_mapineachpost_points', true);
+        error_log($points);
         $points = !empty($points) ? json_decode($points, true) : array();
         $enable_mapineachpost_points = get_post_meta($post->ID, '_enable_mapineachpost_points', true);
     
@@ -78,21 +79,27 @@ class mapInEachPost_post_Class {
         }
 
         if (isset($_POST['points'])) {
-            $points = wp_unslash($_POST['points']); // wp_unslash aggiunto
+            $points = stripslashes_deep($_POST['points']); // Rimuove eventuali backslashes extra
             $sanitized_mapineachpost_points = array();
 
             foreach ($points as $index => $point) {
                 if (!empty($point['title']) || !empty($point['desc']) || !empty($point['lat']) || !empty($point['lon']) || !empty($point['link'])) {
+                    
+                    $title_with_htmlspecialchars = htmlspecialchars($point['title'], ENT_QUOTES, 'UTF-8');
+                    $desc_with_htmlspecialchars = htmlspecialchars($point['desc'], ENT_QUOTES, 'UTF-8');
+            
+                    error_log(sanitize_text_field($point['title'])); // Logga il titolo dopo la sanificazione
                     $sanitized_mapineachpost_points[$index] = array(
-                        'title' => sanitize_text_field($point['title']),
-                        'desc' => sanitize_textarea_field($point['desc']), // cambiato sanitize_text_field a sanitize_textarea_field
-                        'lat' => sanitize_text_field($point['lat']),
-                        'lon' => sanitize_text_field($point['lon']),
-                        'link' => esc_url_raw($point['link']),
+                        'title' => sanitize_text_field($title_with_htmlspecialchars),
+                        'desc'  => sanitize_textarea_field($desc_with_htmlspecialchars), // Sanifica l'area di testo
+                        'lat'   => sanitize_text_field($point['lat']),
+                        'lon'   => sanitize_text_field($point['lon']),
+                        'link'  => esc_url_raw($point['link']),
                     );
                 }
             }
-
+            error_log("save");
+            error_log(wp_json_encode($sanitized_mapineachpost_points)); // Logga i punti dopo la sanificazione
             if (!empty($sanitized_mapineachpost_points)) {
                 update_post_meta($post_id, '_mapineachpost_points', wp_json_encode($sanitized_mapineachpost_points));
             } else {
@@ -101,6 +108,7 @@ class mapInEachPost_post_Class {
         } else {
             delete_post_meta($post_id, '_mapineachpost_points');
         }
+
     }
 
     public function getlistPoint() {
