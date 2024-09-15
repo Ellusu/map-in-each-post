@@ -25,11 +25,11 @@ $enable_points = get_post_meta($post->ID, '_enable_mapineachpost_points', true);
             <tbody>
                 <tr>
                     <td><label for="points[<?php echo esc_attr( $index ); ?>][title]"><?php echo esc_html__('Title', 'map-in-each-post'); ?>:</label></td>
-                    <td><input type="text" name="points[<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr($point['title']); ?>" /></td>
+                    <td><input type="text" name="points[<?php echo esc_attr( $index ); ?>][title]" value="<?php echo esc_attr(html_entity_decode($point['title'], ENT_QUOTES, 'UTF-8')); ?>" /></td>
                 </tr>
                 <tr>
                     <td><label for="points[<?php echo esc_attr( $index ); ?>][desc]"><?php echo esc_html__('Description', 'map-in-each-post'); ?>:</label></td>
-                    <td><input type="text" name="points[<?php echo esc_attr( $index ); ?>][desc]" value="<?php echo esc_attr($point['desc']); ?>" /></td>
+                    <td><input type="text" name="points[<?php echo esc_attr( $index ); ?>][desc]" value="<?php echo esc_attr(html_entity_decode($point['desc'], ENT_QUOTES, 'UTF-8')); ?>" /></td>
                 </tr>
                 <tr>
                     <td><label for="points[<?php echo esc_attr( $index ); ?>][lat]"><?php echo esc_html__('Latitude', 'map-in-each-post'); ?>:</label></td>

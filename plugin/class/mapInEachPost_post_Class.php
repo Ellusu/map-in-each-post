@@ -79,27 +79,20 @@ class mapInEachPost_post_Class {
         }
 
         if (isset($_POST['points'])) {
-            $points = stripslashes_deep($_POST['points']); // Rimuove eventuali backslashes extra
+            $points = wp_unslash($_POST['points']); // wp_unslash aggiunto
             $sanitized_mapineachpost_points = array();
-
+        
             foreach ($points as $index => $point) {
                 if (!empty($point['title']) || !empty($point['desc']) || !empty($point['lat']) || !empty($point['lon']) || !empty($point['link'])) {
-                    
-                    $title_with_htmlspecialchars = htmlspecialchars($point['title'], ENT_QUOTES, 'UTF-8');
-                    $desc_with_htmlspecialchars = htmlspecialchars($point['desc'], ENT_QUOTES, 'UTF-8');
-            
-                    error_log(sanitize_text_field($point['title'])); // Logga il titolo dopo la sanificazione
                     $sanitized_mapineachpost_points[$index] = array(
-                        'title' => sanitize_text_field($title_with_htmlspecialchars),
-                        'desc'  => sanitize_textarea_field($desc_with_htmlspecialchars), // Sanifica l'area di testo
-                        'lat'   => sanitize_text_field($point['lat']),
-                        'lon'   => sanitize_text_field($point['lon']),
-                        'link'  => esc_url_raw($point['link']),
+                        'title' => htmlentities(sanitize_text_field($point['title']), ENT_QUOTES, 'UTF-8'),
+                        'desc' => htmlentities(sanitize_textarea_field($point['desc']), ENT_QUOTES, 'UTF-8'), 
+                        'lat' => sanitize_text_field($point['lat']),
+                        'lon' => sanitize_text_field($point['lon']),
+                        'link' => esc_url_raw($point['link']),
                     );
                 }
             }
-            error_log("save");
-            error_log(wp_json_encode($sanitized_mapineachpost_points)); // Logga i punti dopo la sanificazione
             if (!empty($sanitized_mapineachpost_points)) {
                 update_post_meta($post_id, '_mapineachpost_points', wp_json_encode($sanitized_mapineachpost_points));
             } else {
