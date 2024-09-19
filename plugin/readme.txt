@@ -5,7 +5,7 @@ Donate link: https://www.paypal.me/matteoedev/2.55
 License URI: http://www.gnu.org/licenses/gpl.html
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 1.9
+Stable tag: 1.10
 License: GPLv2 or later
 
 A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.
@@ -13,6 +13,8 @@ A simple plugin to insert customizable maps in posts using shortcodes. Supports 
 == Description ==
 
 Map in Each Post allows you to easily add a map to your WordPress posts using shortcodes and a built-in form. You can customize each map with different points for each post. This plugin is ideal for travel blogs, location-based content, and any website that needs custom maps per post. Additionally, you can select which post types will have the map functionality enabled.
+
+**Try it on a free mock site: [click here](https://tastewp.org/plugins/map-in-each-post/)**
 
 = Features =
 
