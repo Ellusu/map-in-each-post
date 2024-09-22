@@ -24,11 +24,11 @@ class mapInEachPost_map_Class {
     public function has_plugin_shortcode() {
         global $post;
         if (isset($post->post_content)) {
-            return has_shortcode($post->post_content, 'mapInEachPost'); 
+            return has_shortcode($post->post_content, 'mapInEachPost') || has_shortcode($post->post_content, 'mapInEachPostPoint');
         }
         return false;
     }
-
+   
     public function render($locations, $atts = []) {
         $atts = $this->attsChecker($atts);
 

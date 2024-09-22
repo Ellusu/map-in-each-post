@@ -19,6 +19,8 @@ class mapInEachPost_configurator_Class {
         $position = 100;
 
         add_menu_page( $page_title, $menu_title, $capability, $slug, $callback, $icon, $position );
+
+        do_action('map_in_each_post_after_menu');
     }
 
     public function settings_page_content() {

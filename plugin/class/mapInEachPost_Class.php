@@ -18,6 +18,8 @@
             $notice = new mapInEachPost_notice_Class();
 
             add_action('template_redirect', [$this, 'check_and_add_shortcode']);
+            add_shortcode('mapInEachPostPoint', [$this, 'mapInEachPostPoint_function']);
+
         }
     
         public function check_and_add_shortcode() {
@@ -27,12 +29,39 @@
         }
     
         public function mapInEachPost_function($atts) {
-            // Verifica se il metodo viene chiamato
-            error_log('mapInEachPost_function called');
-    
             return $this->map->render($this->getPoint(), $atts);
         }
-    
+
+        public function mapInEachPostPoint_function($atts) {        
+            $atts = shortcode_atts([
+                'title' => 'Here',
+                'lat' => '0',
+                'lon' => '0',
+                'zoom' => '8',
+                'link' => '',
+                'desc'=>''
+            ], $atts);
+        
+            $title = sanitize_text_field($atts['title']);
+
+            $locations = [
+                'title' => $title,
+                'lat'   => floatval($atts['lat']),
+                'lon'   => floatval($atts['lon']),
+            ];
+            if (!empty($atts['link'])) {
+                $locations['link'] = esc_url($atts['link']);
+            }
+
+            if (!empty($atts['desc'])) {
+                $locations['desc'] = sanitize_textarea_field($atts['desc']);
+            }
+
+            $locations = apply_filters('modify_map_point', $locations, $atts);
+
+            return $this->map->render([$locations], $atts);
+        }
+        
         public function getPoint() {
             return $this->point->getlistPoint();
         }

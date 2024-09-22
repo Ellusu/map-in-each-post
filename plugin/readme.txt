@@ -26,17 +26,36 @@ Map in Each Post allows you to easily add a map to your WordPress posts using sh
 
 = Usage =
 
-To use this plugin, simply add the following shortcode to your post:
+To use this plugin, simply add the following shortcode to your post to display a map with multiple points:
 
 `[mapInEachPost]`
 
-Or by choosing the center point and zoom:
+Or by specifying the center point and zoom:
 
 `[mapInEachPost zoom="3" lat="45.4399961" lon="10.9719328"]`
 
 Then, use the form that appears in the post editor to input the latitude and longitude coordinates for the points you want to add to the map.
 
 This will generate a map with points in New York City and Los Angeles.
+
+---
+
+To display a single point on the map, use the following shortcode:
+
+`[mapInEachPostPoint lat="39.8736" lon="8.7479" zoom="12" title="Point in Sardinia"]`
+
+- `lat`: Latitude of the point (required)
+- `lon`: Longitude of the point (required)
+- `zoom`: Zoom level for the map (optional, default: 8)
+- `title`: Title of the point (optional, default: empty)
+- `link`: A URL to associate with the point (optional)
+- `description`: A description for the point (optional)
+
+For example, to display a point with additional information:
+
+`[mapInEachPostPoint lat="39.8736" lon="8.7479" zoom="12" title="Point in Sardinia" link="https://example.com" description="Description of the Point in Sardinia"]`
+
+This will generate a map centered on the given latitude and longitude, with the point titled "Point in Sardinia" and a link to "https://example.com".
 
 == Installation ==
 

@@ -43,7 +43,6 @@ class mapInEachPost_post_Class {
 
     public function render_mapineachpost_points_metabox($post) {
         $points = get_post_meta($post->ID, '_mapineachpost_points', true);
-        error_log($points);
         $points = !empty($points) ? json_decode($points, true) : array();
         $enable_mapineachpost_points = get_post_meta($post->ID, '_enable_mapineachpost_points', true);
     
