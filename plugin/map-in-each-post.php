@@ -2,7 +2,7 @@
    /*
    Plugin Name: Map in Each Post
    description: A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.
-   Version: 1.10
+   Version: 1.2
    Author: Matteo Enna
    Author URI: https://matteoenna.it/it/wordpress-work/
    Text Domain: map-in-each-post
