@@ -5,7 +5,7 @@ Donate link: https://www.paypal.me/matteoedev/2.55
 License URI: http://www.gnu.org/licenses/gpl.html
 Requires at least: 5.0
 Tested up to: 6.6
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 
 A simple plugin to insert customizable maps in posts using shortcodes. Supports unique maps per post and custom post types.
@@ -49,11 +49,11 @@ To display a single point on the map, use the following shortcode:
 - `zoom`: Zoom level for the map (optional, default: 8)
 - `title`: Title of the point (optional, default: empty)
 - `link`: A URL to associate with the point (optional)
-- `description`: A description for the point (optional)
+- `desc`: A description for the point (optional)
 
 For example, to display a point with additional information:
 
-`[mapInEachPostPoint lat="39.8736" lon="8.7479" zoom="12" title="Point in Sardinia" link="https://example.com" description="Description of the Point in Sardinia"]`
+`[mapInEachPostPoint lat="39.8736" lon="8.7479" zoom="12" title="Point in Sardinia" link="https://example.com" desc="Description of the Point in Sardinia"]`
 
 This will generate a map centered on the given latitude and longitude, with the point titled "Point in Sardinia" and a link to "https://example.com".
 
