@@ -25,7 +25,7 @@ class mapInEachPost_post_Class {
             'removePoint' => esc_html__('Remove point', 'map-in-each-post'),
         ]);
     }
-    
+
     public function add_mapineachpost_points_metabox() {
         $selected_post_types = get_option('mapInEachPost_post_types', []);
 
@@ -43,20 +43,37 @@ class mapInEachPost_post_Class {
 
     public function render_mapineachpost_points_metabox($post) {
         $points = get_post_meta($post->ID, '_mapineachpost_points', true);
-        $points = !empty($points) ? json_decode($points, true) : array();
+        $points = !empty($points) ? json_decode($points, true) : [];
         $enable_mapineachpost_points = get_post_meta($post->ID, '_enable_mapineachpost_points', true);
-    
-        do_action('before_render_mapineachpost_points_form', $post, $points);
-    
-        if (has_action('render_custom_mapineachpost_points_form')) {
-            do_action('render_custom_mapineachpost_points_form', $post, $points);
-        } else {
-            include plugin_dir_path(__FILE__) . '../templates/post-point-metabox.php';
-        }
-    
-        do_action('after_render_mapineachpost_points_form', $post, $points);
+        
+        $points = get_post_meta($post->ID, '_mapineachpost_points', true);
+        $points = !empty($points) ? json_decode($points, true) : [];
+        
+        $fields = apply_filters('mapineachpost_point_fields', [
+            'title' => array(
+                'label' => __('Title', 'map-in-each-post'),
+                'type'=>'text'
+            ),
+            'desc' => array(
+                'label' => __('Description', 'map-in-each-post'),
+                'type'=>'text'
+            ),
+            'lat' => array(
+                'label' => __('Latitude', 'map-in-each-post'),
+                'type'=>'text'
+            ),
+            'lon' => array(
+                'label' => __('Longitude', 'map-in-each-post'),
+                'type'=>'text'
+            ),
+            'link' => array(
+                'label' => __('Link', 'map-in-each-post'),
+                'type'=>'text'
+            )
+        ]);
+
+        include plugin_dir_path(__FILE__) . '../templates/post-point-metabox.php';
     }
-    
 
     public function save_mapineachpost_points($post_id) {
         if (!isset($_POST['mapInEachPost_nonce_field']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mapInEachPost_nonce_field'])), 'save_mapineachpost_points')) {
@@ -78,20 +95,19 @@ class mapInEachPost_post_Class {
         }
 
         if (isset($_POST['points'])) {
-            $points = wp_unslash($_POST['points']); // wp_unslash aggiunto
-            $sanitized_mapineachpost_points = array();
-        
-            foreach ($points as $index => $point) {
-                if (!empty($point['title']) || !empty($point['desc']) || !empty($point['lat']) || !empty($point['lon']) || !empty($point['link'])) {
-                    $sanitized_mapineachpost_points[$index] = array(
-                        'title' => htmlentities(sanitize_text_field($point['title']), ENT_QUOTES, 'UTF-8'),
-                        'desc' => htmlentities(sanitize_textarea_field($point['desc']), ENT_QUOTES, 'UTF-8'), 
-                        'lat' => sanitize_text_field($point['lat']),
-                        'lon' => sanitize_text_field($point['lon']),
-                        'link' => esc_url_raw($point['link']),
-                    );
+            $points = wp_unslash($_POST['points']);
+            $sanitized_mapineachpost_points = [];
+
+            foreach (array_values($points) as $index => $point) {
+                $sanitized_point = [];
+                foreach ($point as $key => $value) {
+                    $sanitized_point[$key] = $this->sanitize_field($key, $value);
+                }
+                if (!empty($sanitized_point)) {
+                    $sanitized_mapineachpost_points[$index] = $sanitized_point;
                 }
             }
+            
             if (!empty($sanitized_mapineachpost_points)) {
                 update_post_meta($post_id, '_mapineachpost_points', wp_json_encode($sanitized_mapineachpost_points));
             } else {
@@ -100,7 +116,6 @@ class mapInEachPost_post_Class {
         } else {
             delete_post_meta($post_id, '_mapineachpost_points');
         }
-
     }
 
     public function getlistPoint() {
@@ -112,7 +127,7 @@ class mapInEachPost_post_Class {
                 $enable_mapineachpost_points = get_post_meta(get_the_ID(), '_enable_mapineachpost_points', true);
                 if ($enable_mapineachpost_points) {
                     $points = get_post_meta(get_the_ID(), '_mapineachpost_points', true);
-                    $points = wp_json_decode($points, true); // cambiato json_decode a wp_json_decode
+                    $points = wp_json_decode($points, true);
 
                     if (json_last_error() !== JSON_ERROR_NONE) {
                         return [];
@@ -124,5 +139,20 @@ class mapInEachPost_post_Class {
         }
 
         return [];
+    }
+
+    private function sanitize_field($key, $value) {
+        switch ($key) {
+            case 'title':
+            case 'desc':
+                return htmlentities(sanitize_text_field($value), ENT_QUOTES, 'UTF-8');
+            case 'lat':
+            case 'lon':
+                return sanitize_text_field($value);
+            case 'link':
+                return esc_url_raw($value);
+            default:
+                return sanitize_text_field($value);
+        }
     }
 }

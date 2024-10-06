@@ -24,21 +24,25 @@ class mapInEachPost_map_Class {
     public function has_plugin_shortcode() {
         global $post;
         if (isset($post->post_content)) {
-            return has_shortcode($post->post_content, 'mapInEachPost') || has_shortcode($post->post_content, 'mapInEachPostPoint');
+            $has_shortcode = has_shortcode($post->post_content, 'mapInEachPost') || has_shortcode($post->post_content, 'mapInEachPostPoint');
+    
+            $has_shortcode = apply_filters('mapineachpost_shortcode_check', $has_shortcode, $post->post_content);
+            return $has_shortcode;
         }
         return false;
     }
+    
    
     public function render($locations, $atts = []) {
         $atts = $this->attsChecker($atts);
-
+ 
         $localized_data = apply_filters('map_in_each_post_localized_data', array(
             'lat' => $atts['lat'],
             'lon' => $atts['lon'],
             'zoom' => $atts['zoom'],
             'locations' => $locations,
             'view' => __('view', 'map-in-each-post')
-        ));
+        ),$atts);
         
         wp_register_script('map-initialization', plugins_url('../component/js/map-initialization.js', __FILE__), [], '1.0.0', true);
         wp_enqueue_script('map-initialization');
@@ -56,16 +60,15 @@ class mapInEachPost_map_Class {
             'lat'  => 39.216667,
             'lon'  => 9.11667
         ];
-
+    
         if (!is_array($atts)) {
             return $defaults;
         }
-
-        $parameters = [
-            'zoom' => isset($atts['zoom']) ? $atts['zoom'] : $defaults['zoom'],
-            'lat'  => isset($atts['lat']) ? $atts['lat'] : $defaults['lat'],
-            'lon'  => isset($atts['lon']) ? $atts['lon'] : $defaults['lon']
-        ];
+    
+        // Unisci i parametri predefiniti con quelli passati
+        $parameters = array_merge($defaults, $atts);
+        
         return $parameters;
     }
+    
 }

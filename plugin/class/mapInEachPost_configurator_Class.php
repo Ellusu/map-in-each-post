@@ -28,7 +28,6 @@ class mapInEachPost_configurator_Class {
             return;
         }
 
-        // Verifica il nonce solo se si è effettivamente inviato il form
         if ( isset( $_POST['mapInEachPost_nonce_field'] ) ) {
             $nonce = sanitize_text_field( wp_unslash( $_POST['mapInEachPost_nonce_field'] ) );
             if ( ! wp_verify_nonce( $nonce, 'mapInEachPost_nonce_action' ) ) {
