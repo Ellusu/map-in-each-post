@@ -34,7 +34,7 @@
 
         public function mapInEachPostPoint_function($atts) {        
             $atts = shortcode_atts([
-                'title' => 'Here',
+                'title' => __('Here', 'map-in-each-post'),
                 'lat' => '0',
                 'lon' => '0',
                 'zoom' => '8',
